@@ -16,8 +16,9 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 COPY start.sh /usr/local/tomcat/bin/start.sh
 
-RUN chmod +x /usr/local/tomcat/bin/start.sh
+RUN sed -i 's/\r$//' /usr/local/tomcat/bin/start.sh \
+    && chmod +x /usr/local/tomcat/bin/start.sh
 
 EXPOSE 10000
 
-CMD ["/usr/local/tomcat/bin/start.sh"]
+CMD ["/bin/sh", "/usr/local/tomcat/bin/start.sh"]
